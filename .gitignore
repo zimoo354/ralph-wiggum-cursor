@@ -5,6 +5,7 @@ RALPH_TASK.md
 # Ralph state directories (generated at runtime)
 .ralph/
 .ralph-worktrees/
+package.json
 
 # Task cache
 .ralph-task-cache.yaml
