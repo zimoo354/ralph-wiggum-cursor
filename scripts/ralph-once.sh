@@ -41,7 +41,7 @@ Usage:
   ./ralph-once.sh [options] [workspace]
 
 Options:
-  -m, --model MODEL      Model to use (default: opus-4.5-thinking)
+  -m, --model MODEL      Model to use (default: auto)
   -h, --help             Show this help
 
 Examples:
