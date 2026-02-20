@@ -15,7 +15,7 @@
 #
 # Flags:
 #   -n, --iterations N     Max iterations (default: 20)
-#   -m, --model MODEL      Model to use (default: opus-4.5-thinking)
+#   -m, --model MODEL      Model to use (default: auto)
 #   --branch NAME          Sequential: create/work on branch; Parallel: integration branch name
 #   --pr                   Sequential: open PR (requires --branch); Parallel: open ONE integration PR (branch optional)
 #   --parallel             Run tasks in parallel with worktrees
@@ -55,7 +55,7 @@ Usage:
 
 Options:
   -n, --iterations N     Max iterations (default: 20)
-  -m, --model MODEL      Model to use (default: opus-4.5-thinking)
+  -m, --model MODEL      Model to use (default: auto)
   --branch NAME          Sequential: create/work on branch; Parallel: integration branch name
   --pr                   Sequential: open PR (requires --branch); Parallel: open ONE integration PR (branch optional)
   --parallel             Run tasks in parallel with worktrees

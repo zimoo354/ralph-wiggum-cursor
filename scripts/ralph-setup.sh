@@ -42,9 +42,11 @@ fi
 
 # Model options
 MODELS=(
-  "opus-4.5-thinking"
-  "sonnet-4.5-thinking"
-  "gpt-5.2-high"
+  "auto"
+  "gpt-5.3-codex"
+  "gpt-5.1-codex-mini"
+  "opus-4.6"
+  "sonnet-4.6"
   "composer-1"
   "Custom..."
 )
@@ -56,7 +58,7 @@ select_model() {
     selected=$(gum choose --header "Select model:" "${MODELS[@]}")
     
     if [[ "$selected" == "Custom..." ]]; then
-      selected=$(gum input --placeholder "Enter model name" --value "$DEFAULT_MODEL")
+      selected=$(gum input --placeholder "Enter model name (for a list of models, run `cursor-agent models`)" --value "$DEFAULT_MODEL")
     fi
     echo "$selected"
   else
@@ -65,7 +67,7 @@ select_model() {
     local i=1
     for m in "${MODELS[@]}"; do
       if [[ "$m" == "Custom..." ]]; then
-        echo "  $i) Custom (enter manually)"
+        echo "  $i) Custom (enter manually) (for a list of models, run `cursor-agent models`)"
       else
         echo "  $i) $m"
       fi

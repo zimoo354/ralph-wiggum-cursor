@@ -31,7 +31,7 @@ ROTATE_THRESHOLD="${ROTATE_THRESHOLD:-80000}"
 MAX_ITERATIONS="${MAX_ITERATIONS:-20}"
 
 # Model selection
-DEFAULT_MODEL="opus-4.5-thinking"
+DEFAULT_MODEL="auto"
 MODEL="${RALPH_MODEL:-$DEFAULT_MODEL}"
 
 # Feature flags (set by caller)
@@ -519,7 +519,8 @@ run_iteration() {
   # Start spinner to show we're alive
   spinner "$workspace" &
   local spinner_pid=$!
-  
+  trap 'kill $spinner_pid 2>/dev/null; wait $spinner_pid 2>/dev/null; trap - SIGINT SIGTERM; exit 130' SIGINT SIGTERM
+
   # Start parser in background, reading from cursor-agent
   # Parser outputs to fifo, we read signals from fifo
   (
@@ -571,6 +572,7 @@ run_iteration() {
   # Stop spinner and clear line
   kill $spinner_pid 2>/dev/null || true
   wait $spinner_pid 2>/dev/null || true
+  trap - SIGINT SIGTERM
   printf "\r\033[K" >&2  # Clear spinner line
   
   # Cleanup

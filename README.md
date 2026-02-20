@@ -90,7 +90,7 @@ This creates two problems:
 
 ```bash
 cd your-project
-curl -fsSL https://raw.githubusercontent.com/agrimsingh/ralph-wiggum-cursor/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/zimoo354/ralph-wiggum-cursor/main/install.sh | bash
 ```
 
 This creates:
@@ -126,9 +126,11 @@ With gum, you get a beautiful interactive menu for selecting models and options:
 
 ```
 ? Select model:
-  ◉ opus-4.5-thinking
-  ◯ sonnet-4.5-thinking
-  ◯ gpt-5.2-high
+  ◉ auto
+  ◯ gpt-5.3-codex
+  ◯ gpt-5.1-codex-mini
+  ◯ opus-4.6
+  ◯ sonnet-4.6
   ◯ composer-1
   ◯ Custom...
 
@@ -225,7 +227,7 @@ cat .ralph/errors.log
 
 Options:
   -n, --iterations N     Max iterations (default: 20)
-  -m, --model MODEL      Model to use (default: opus-4.5-thinking)
+  -m, --model MODEL      Model to use (default: auto)
   --branch NAME          Sequential: create/work on branch; Parallel: integration branch name
   --pr                   Sequential: open PR (requires --branch); Parallel: open ONE integration PR (branch optional)
   --parallel             Run tasks in parallel with worktrees
