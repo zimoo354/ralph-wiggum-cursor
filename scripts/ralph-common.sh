@@ -502,10 +502,12 @@ run_iteration() {
 
   # Start parser in background, reading from cursor-agent
   # Parser outputs to fifo, we read signals from fifo
-  (
-    eval "$cmd \"$prompt\"" 2>&1 | "$script_dir/stream-parser.sh" "$workspace" > "$fifo"
-  ) &
-  local agent_pid=$!
+  local -a agent_argv=(cursor-agent -p --force --output-format stream-json --model "$MODEL") & local agent_pid=$!
+  if [[ -n "$session_id" ]]; then
+    echo "Resuming session: $session_id" >&2
+    agent_argv+=(--resume="$session_id")
+  fi
+  agent_argv+=("$prompt")
 
   echo "👨🏻‍💻 Agent running with PID: $agent_pid" >&2
 
