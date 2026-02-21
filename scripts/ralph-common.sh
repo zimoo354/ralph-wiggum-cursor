@@ -489,25 +489,24 @@ run_iteration() {
   # Log session start to progress.md
   log_progress "$workspace" "**Session $iteration started** (model: $MODEL)"
   
-  # Build cursor-agent command
-  local cmd="cursor-agent -p --force --output-format stream-json --model $MODEL"
-  
-  if [[ -n "$session_id" ]]; then
-    echo "Resuming session: $session_id" >&2
-    cmd="$cmd --resume=\"$session_id\""
-  fi
-  
   # Change to workspace
   cd "$workspace"
 
-  # Start parser in background, reading from cursor-agent
-  # Parser outputs to fifo, we read signals from fifo
-  local -a agent_argv=(cursor-agent -p --force --output-format stream-json --model "$MODEL") & local agent_pid=$!
+  # Build cursor-agent argv (no spaces in model to avoid quoting issues)
+  local -a agent_argv=(cursor-agent -p --force --output-format stream-json --model "$MODEL")
   if [[ -n "$session_id" ]]; then
     echo "Resuming session: $session_id" >&2
     agent_argv+=(--resume="$session_id")
   fi
   agent_argv+=("$prompt")
+
+  # Agent stdout -> parser stdin; parser stdout -> fifo. We need agent PID for kill.
+  local agent_out_fifo="$workspace/.ralph/.agent_out_fifo"
+  rm -f "$agent_out_fifo"
+  mkfifo "$agent_out_fifo"
+  "${agent_argv[@]}" 2>&1 > "$agent_out_fifo" &
+  local agent_pid=$!
+  "$script_dir/stream-parser.sh" "$workspace" < "$agent_out_fifo" > "$fifo" &
 
   echo "👨🏻‍💻 Agent running with PID: $agent_pid" >&2
 
@@ -546,9 +545,9 @@ run_iteration() {
   
   # Wait for agent to finish
   wait $agent_pid 2>/dev/null || true
-    
+
   # Cleanup
-  rm -f "$fifo"
+  rm -f "$fifo" "$workspace/.ralph/.agent_out_fifo"
   
   echo "$signal"
 }
