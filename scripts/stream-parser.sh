@@ -22,6 +22,12 @@ set -euo pipefail
 WORKSPACE="${1:-.}"
 RALPH_DIR="$WORKSPACE/.ralph"
 
+# jq is required for parsing stream-json (common missing dep in minimal Docker images)
+if ! command -v jq &>/dev/null; then
+  echo "❌ jq is required but not installed. Install it (e.g. apt-get install jq) and re-run." >&2
+  exit 1
+fi
+
 # Ensure .ralph directory exists
 mkdir -p "$RALPH_DIR"
 
