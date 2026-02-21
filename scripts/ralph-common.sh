@@ -457,22 +457,6 @@ EOF
 }
 
 # =============================================================================
-# SPINNER
-# =============================================================================
-
-# Spinner to show the loop is alive (not frozen)
-# Outputs to stderr so it's not captured by $()
-spinner() {
-  local workspace="$1"
-  local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-  local i=0
-  while true; do
-    printf "\r  🐛 Agent working... %s  (watch: tail -f %s/.ralph/activity.log)" "${spin:i++%${#spin}:1}" "$workspace" >&2
-    sleep 0.1
-  done
-}
-
-# =============================================================================
 # ITERATION RUNNER
 # =============================================================================
 
@@ -515,11 +499,6 @@ run_iteration() {
   
   # Change to workspace
   cd "$workspace"
-  
-  # Start spinner to show we're alive
-  spinner "$workspace" &
-  local spinner_pid=$!
-  trap 'kill $spinner_pid 2>/dev/null; wait $spinner_pid 2>/dev/null; trap - SIGINT SIGTERM; exit 130' SIGINT SIGTERM
 
   # Start parser in background, reading from cursor-agent
   # Parser outputs to fifo, we read signals from fifo
@@ -527,37 +506,34 @@ run_iteration() {
     eval "$cmd \"$prompt\"" 2>&1 | "$script_dir/stream-parser.sh" "$workspace" > "$fifo"
   ) &
   local agent_pid=$!
-  
+
+  echo "👨🏻‍💻 Agent running with PID: $agent_pid" >&2
+
   # Read signals from parser
   local signal=""
   while IFS= read -r line; do
     case "$line" in
       "ROTATE")
-        printf "\r\033[K" >&2  # Clear spinner line
         echo "🔄 Context rotation triggered - stopping agent..." >&2
         kill $agent_pid 2>/dev/null || true
         signal="ROTATE"
         break
         ;;
       "WARN")
-        printf "\r\033[K" >&2  # Clear spinner line
         echo "⚠️  Context warning - agent should wrap up soon..." >&2
         # Send interrupt to encourage wrap-up (agent continues but is notified)
         ;;
       "GUTTER")
-        printf "\r\033[K" >&2  # Clear spinner line
         echo "🚨 Gutter detected - agent may be stuck..." >&2
         signal="GUTTER"
         # Don't kill yet, let agent try to recover
         ;;
       "COMPLETE")
-        printf "\r\033[K" >&2  # Clear spinner line
         echo "✅ Agent signaled completion!" >&2
         signal="COMPLETE"
         # Let agent finish gracefully
         ;;
       "DEFER")
-        printf "\r\033[K" >&2  # Clear spinner line
         echo "⏸️  Rate limit or transient error - deferring for retry..." >&2
         signal="DEFER"
         # Stop the agent, will retry with backoff
@@ -568,13 +544,7 @@ run_iteration() {
   
   # Wait for agent to finish
   wait $agent_pid 2>/dev/null || true
-  
-  # Stop spinner and clear line
-  kill $spinner_pid 2>/dev/null || true
-  wait $spinner_pid 2>/dev/null || true
-  trap - SIGINT SIGTERM
-  printf "\r\033[K" >&2  # Clear spinner line
-  
+    
   # Cleanup
   rm -f "$fifo"
   
