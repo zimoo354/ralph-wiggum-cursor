@@ -23,5 +23,8 @@
 
 ## Learned Signs
 
-(Signs added from observed failures will appear below)
+### Sign: Run test_command when tools available
+- **Trigger**: After code changes; before marking task complete
+- **Instruction**: Run the test_command from RALPH_TASK.md (e.g. `cd ralph-ts && npm run build`). If npm/node are not in PATH, document in progress.md and leave the build criterion unchecked until an environment with Node/npm can run it.
+- **Added after**: Iteration 4 - build criterion could not be verified because npm was not in PATH
 

@@ -1,0 +1,24 @@
+{
+  "name": "ralph-wiggum-ts",
+  "version": "0.1.0",
+  "description": "Ralph Wiggum autonomous development agent - TypeScript implementation",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "ralph": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["ralph", "cursor", "agent", "automation"],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

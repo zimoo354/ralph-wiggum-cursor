@@ -63,14 +63,14 @@ Phase 1 scope: **Do not** implement parallel/worktree mode or the full gum-based
 
 The task is complete when ALL of the following are true:
 
-1. [ ] `ralph-ts/` exists and contains `package.json` and `tsconfig.json` (and optionally a lockfile)
+1. [x] `ralph-ts/` exists and contains `package.json` and `tsconfig.json` (and optionally a lockfile)
 2. [ ] `cd ralph-ts && npm run build` succeeds with no errors
-3. [ ] Stream parser module exists and can parse stream-json lines and compute token usage from file read/write/assist/shell events
-4. [ ] Task parser module exists and can extract checklist items from a `RALPH_TASK.md`-style markdown string (and optionally write/read `.ralph/tasks.yaml`)
-5. [ ] Run loop (or single-run) exists and spawns `cursor-agent` with correct args, pipes stdout through the stream parser, and respects at least one of: single iteration or max iterations
-6. [ ] CLI entrypoint exists and accepts workspace path (and optionally max iterations / model); runs the loop or single iteration against the given workspace
-7. [ ] No existing file outside `ralph-ts/` has been modified or deleted (only new files under `ralph-ts/` and possibly new root files like this RALPH_TASK.md)
-8. [ ] `ralph-ts/README.md` exists and describes: how to build, how to run (e.g. `npx` or `node dist/cli.js`), what env vars or args are supported, and how the TS implementation maps to the shell scripts (e.g. “stream parser ≈ stream-parser.sh”)
+3. [x] Stream parser module exists and can parse stream-json lines and compute token usage from file read/write/assist/shell events
+4. [x] Task parser module exists and can extract checklist items from a `RALPH_TASK.md`-style markdown string (and optionally write/read `.ralph/tasks.yaml`)
+5. [x] Run loop (or single-run) exists and spawns `cursor-agent` with correct args, pipes stdout through the stream parser, and respects at least one of: single iteration or max iterations
+6. [x] CLI entrypoint exists and accepts workspace path (and optionally max iterations / model); runs the loop or single iteration against the given workspace
+7. [x] No existing file outside `ralph-ts/` has been modified or deleted (only new files under `ralph-ts/` and possibly new root files like this RALPH_TASK.md)
+8. [x] `ralph-ts/README.md` exists and describes: how to build, how to run (e.g. `npx` or `node dist/cli.js`), what env vars or args are supported, and how the TS implementation maps to the shell scripts (e.g. “stream parser ≈ stream-parser.sh”)
 
 ## Out of Scope (Phase 1)
 
