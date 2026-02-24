@@ -211,6 +211,12 @@ tail -f .ralph/activity.log
 cat .ralph/errors.log
 ```
 
+## Running locally
+
+- Install prerequisites (git, cursor-agent, optionally gum) and Ralph—see [Prerequisites](#prerequisites) and [Quick Start](#quick-start).
+- Run a single iteration to test: `./.cursor/ralph-scripts/ralph-once.sh`
+- Run the full loop: `./.cursor/ralph-scripts/ralph-setup.sh`
+
 ## Commands
 
 | Command | Description |

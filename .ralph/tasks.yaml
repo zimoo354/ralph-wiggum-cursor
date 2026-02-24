@@ -1,0 +1,24 @@
+# Ralph Task Cache
+# Auto-generated from RALPH_TASK.md
+# DO NOT EDIT - regenerated on task file change
+
+source_file: RALPH_TASK.md
+source_mtime: 1771893293515
+generated_at: 2026-02-24T00:34:53.543Z
+
+tasks:
+  - id: "line_12"
+    line_number: 12
+    status: pending
+    parallel_group: 999999
+    description: "README has a \"Running locally\" (or similar) section"
+  - id: "line_13"
+    line_number: 13
+    status: pending
+    parallel_group: 999999
+    description: "Section has at least 2 bullet points"
+  - id: "line_14"
+    line_number: 14
+    status: pending
+    parallel_group: 999999
+    description: "No existing content is broken"
