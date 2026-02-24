@@ -9,9 +9,9 @@ Add a short "Running locally" section to the README with 2–3 bullet points (e.
 
 ## Success criteria
 
-1. [ ] README has a "Running locally" (or similar) section
-2. [ ] Section has at least 2 bullet points
-3. [ ] No existing content is broken
+1. [x] README has a "Running locally" (or similar) section
+2. [x] Section has at least 2 bullet points
+3. [x] No existing content is broken
 
 ## Context
 
